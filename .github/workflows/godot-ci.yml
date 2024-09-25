@@ -23,11 +23,8 @@ jobs:
         with:
           lfs: true
       - name: Run tests
-        uses: coactions/setup-xvfb@v1
-        with:
-          run: godot
-          working-directory: ./
-          options: -s addons/gut/gut_cmdln.gd -gdir=res://test/unit -gexit
+        run: |
+          godot -s addons/gut/gut_cmdln.gd -gdir=res://test/unit -gexit --headless
       - name: Setup
         run: |
           mkdir -v -p ~/.local/share/godot/export_templates/
