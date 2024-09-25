@@ -1,5 +1,7 @@
 extends Area2D
 
+signal hit
+
 @export var speed = 400
 var screen_size
 
@@ -39,3 +41,13 @@ func _process(delta: float) -> void:
 		$AnimatedSprite2D.animation = 'up'
 		$AnimatedSprite2D.flip_v = velocity.y > 0
 	
+func start(position_: Vector2):
+	position = position_
+	show()
+	$CollisionShape2D.disabled = false
+
+
+func _on_body_entered(body: Node2D) -> void:
+	hide()
+	hit.emit()
+	$CollisionShape2D.set_deferred('disabled', true)
