@@ -28,6 +28,7 @@ func new_game() -> void:
 	$HUD.update_score(score)
 	$HUD.show_message("Get ready!")
 
+	get_tree().call_group("mobs", "queue_free")
 
 
 func _on_start_timer_timeout() -> void:
