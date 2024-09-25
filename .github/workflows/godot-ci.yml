@@ -1,0 +1,41 @@
+name: "godot-ci export"
+on:
+  push:
+    branches:
+      - 'devops*'
+  pull_request:
+    branches:
+      - 'main'
+
+env:
+  GODOT_VERSION: 4.3
+  EXPORT_NAME: godot-sandbox
+
+jobs:
+  export-linux:
+    name: Linux Export
+    runs-on: ubuntu-20.04
+    container:
+      image: barichello/godot-ci:4.3
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+      - name: Setup
+        run: |
+          mkdir -v -p ~/.local/share/godot/export_templates/
+          mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
+      - name: Run tests
+        run: |
+          godot -s --path $PROJECT_PATH addons/gut/gut_cmdln.gd -gdir=res://test/unit
+      - name: Linux Build
+        run: |
+          mkdir -v -p build/linux
+          cd $PROJECT_PATH
+          godot --headless --verbose --export-release "Linux/X11" ../build/linux/$EXPORT_NAME.x86_64
+      # - name: Upload Artifact
+      #   uses: actions/upload-artifact@v1
+      #   with:
+      #     name: linux
+      #     path: build/linux
