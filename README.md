@@ -5,7 +5,7 @@
 alias godot='<path-to-editor-executable>/Godot_v4.3-stable_linux.x86_64'
 ```
 
-Run the tests:
+Run the tests from root of the project:
 ```shell
-godot -s --path <path-to-root-of-project> addons/gut/gut_cmdln.gd -gdir=res://test/unit
+godot -s addons/gut/gut_cmdln.gd -gdir=res://test/unit -gexit
 ```
