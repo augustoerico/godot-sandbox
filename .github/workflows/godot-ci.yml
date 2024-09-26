@@ -1,12 +1,11 @@
 name: "godot-ci export"
 on:
-  # push:
-  #   branches:
-  #     - 'devops*'
+  push:
+    branches:
+      - 'devops*'
   pull_request:
     branches:
-      # - 'main'
-      - 'release-v*'
+      - 'main'
 
 env:
   GODOT_VERSION: 4.3
@@ -37,14 +36,4 @@ jobs:
         run: |
           mkdir -v -p builds/linux
           godot --headless --verbose --export-release "Linux" builds/linux/$(EXPORT_NAME).x86_64
-      - name: Create release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with: # TODO: properly manage tags
-          tag_name: ${{ github.ref }}
-          release_name: ${{ github.ref }}
-          body: |
-            First release!
-          draft: false
-          prerelease: false
+     # TODO: create release
